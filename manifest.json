@@ -1,0 +1,10 @@
+{
+  "name": "PrivacyMI5",
+  "description": "An app for monitoring the data you exchange with websites.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "assets/html/hello.html",
+    "default_icon": "assets/img/logo.png"
+  }
+}
