@@ -1,0 +1,14 @@
+.popup-body {
+    width: 256px;
+    margin: 32px;
+    font-size: 32px;
+}
+
+.form-check-input {
+    /* width: 128px;
+    height: 32px; */
+}
+
+.form-check-label {
+    font-size: 24px;
+}

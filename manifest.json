@@ -4,7 +4,23 @@
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "assets/html/hello.html",
+    "default_popup": "html/hello.html",
     "default_icon": "assets/img/logo.png"
-  }
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "js/lib.js",
+        "js/content.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "file://*/*"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
 }
