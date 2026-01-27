@@ -1,11 +1,17 @@
 {
-  "name": "PrivacyMI5",
+  "name": "OSS Privacy",
   "description": "An app for monitoring the data you exchange with websites.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "html/hello.html",
-    "default_icon": "assets/img/logo.png"
+    "default_icon": "assets/icons/ossp_48.png"
+  },
+  "icons": {
+    "16": "assets/icons/ossp_16.png",
+    "32": "assets/icons/ossp_32.png",
+    "48": "assets/icons/ossp_48.png",
+    "128": "assets/icons/ossp_128.png"
   },
   "content_scripts": [
     {
