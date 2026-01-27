@@ -8,14 +8,52 @@
     <link href="/css/style.css" rel="stylesheet">
   </head>
   <body class="popup-body">
-    <div class="form-check form-switch">
-      <input class="form-check-input" id="plus-aliasing" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-      <label class="form-check-label" for="flexSwitchCheckDefault">Plus addressing</label>
-    </div>
-    <div class="form-check form-switch">
-      <input class="form-check-input" id="random-dots" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-      <label class="form-check-label" for="flexSwitchCheckDefault">Add random dots (Gmail only)</label>
-    </div>
+    <main class="px">
+      <div class="text-center">
+        <img alt="OSS Privacy" class="d-block mx-auto mb-4" src="/assets/icons/ossp_128.png">
+        <h1 class="mb-4">OSS Privacy</h1>
+      </div>
+    </main>
+    <section>
+      <h2>Email</h2>
+      <div class="form-check form-switch">
+        <input class="form-check-input" id="plus-aliasing" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Plus addressing</label>
+      </div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" id="dots-aliasing" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Add random dots (Gmail only)</label>
+      </div>
+    </section>
+    <section>
+      <h2>Name handling</h2>
+      <div>
+        <label for="name-handling">How should names be handled?</label>
+        <select class="form-select" id="name-handling">
+          <option value>Do nothing</option>
+          <option value="abbreviate">Abbreviate</option>
+          <option value="shorten">Shorten</option>
+          <option value="add-variations">Add variations</option>
+          <option value="add-spelling-mistakes">Add spelling mistakes</option>
+        </select>
+      </div>
+      <div>
+        <label for="name-handling-sep">If abbreviating names, what should be the separator?</label>
+        <select class="form-select" id="name-handling-sep">
+          <option value="no-sep">No separators</option>
+          <option value="dot">Dots (.)</option>
+          <option value="dash">Dashes (-)</option>
+          <option value="space">Spaces ( )</option>
+        </select>
+      </div>
+      <div>
+        <label for="name-handling-uppercase">If abbreviating names, should all letters be in uppercase?</label>
+        <select class="form-select" id="name-handling-uppercase">
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="/js/lib.js"></script>
     <script src="/js/popup.js"></script>

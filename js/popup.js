@@ -1,3 +1,5 @@
+"use strict";
+
 function initToggleBtn(elementId) {
     const toggleBtn = document.getElementById(elementId);
     (async () => {
@@ -13,4 +15,22 @@ function initToggleBtn(elementId) {
     });
 }
 
+function initSelects() {
+    const selects = document.querySelectorAll('select').forEach((el) => {
+        const settingId = el.id;
+        (async () => {
+            const settingValue = await getConfSetting(settingId);
+            console.log(settingId, " set to ", settingValue);
+            el.value = settingValue;
+        })();
+
+        el.addEventListener("change", async () => {
+            await setConfSetting(settingId, el.value);
+            console.log(settingId, " was set to ", el.value);
+        });
+    });
+}
+
 initToggleBtn(PLUS_ALIASING);
+initToggleBtn(DOTS_ALIASING);
+initSelects();
