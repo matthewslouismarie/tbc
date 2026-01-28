@@ -4,10 +4,37 @@
         <meta charset="utf-8">
         <title>Formulaire</title>
     </head>
-    <form id="form" action="#" method="get">
+    <form id="form" action="#" method="get" autocomplete="on">
         <input role="username" required name="username" placeholder="e@gmail.com">
         <label for="first-name">First name:</label>
         <input id="first-name" type="text" autocomplete="given-name" name="first-name">
         <button type="submit">Submit</button>
+        <fieldset>
+            <h2>Name handling</h2>
+            <h3>Autocompletes</h3>
+            <p>First name: <input autocomplete="name" value="this is a default value"></p>
+            <p>Additional name: <input autocomplete="additional-name" value="this is a default value"></p>
+            <p>Family name: <input autocomplete="family-name" value="this is a default value"></p>
+            <p>Given name: <input autocomplete="given-name" value="this is a default value"></p>
+            <h3>Based on label</h3>
+            <label>First name: <input value="this is a default value"></label>
+            <label>Additional name: <input value="this is a default value"></label>
+            <label>Family name: <input value="this is a default value"></label>
+            <label>Given name: <input value="this is a default value"></label>
+            <h3>Based on ARIA labelle-by</h3>
+            <label id="aria-first-name">First name: </label>
+            <input aria-labelledby="aria-first-name" value="this is a default value">
+            <label id="aria-additional-name">Additional name: </label>
+            <input aria-labelledby="aria-additional-name" value="this is a default value">
+            <label id="aria-family-name">Family name: </label>
+            <input aria-labelledby="aria-family-name" value="this is a default value">
+            <label id="aria-given-name">Given name: </label>
+            <input aria-labelledby="aria-given-name" value="this is a default value">
+            <h3>Based on ARIA label</h3>
+            <p>First name: <input aria-label="name" value="this is a default value"></p>
+            <p>Additional name: <input aria-label="additional-name" value="this is a default value"></p>
+            <p>Family name: <input aria-label="family-name" value="this is a default value"></p>
+            <p>Given name: <input aria-label="given-name" value="this is a default value"></p>
+        </fieldset>
     </form>
-</html>
+    </html>

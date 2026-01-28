@@ -17,6 +17,7 @@ function initToggleBtn(elementId) {
 
 function initSelects() {
     const selects = document.querySelectorAll('select').forEach((el) => {
+        console.log("ossp [popup] processing select #", el.id);
         const settingId = el.id;
         (async () => {
             const settingValue = await getConfSetting(settingId);
@@ -25,8 +26,9 @@ function initSelects() {
         })();
 
         el.addEventListener("change", async () => {
-            await setConfSetting(settingId, el.value);
-            console.log(settingId, " was set to ", el.value);
+            const settingValue = 'boolean' === el.getAttribute('data-type') ? el.value === "true" : el.value;
+            await setConfSetting(settingId, settingValue);
+            console.log(settingId, " was set to ", settingValue);
         });
     });
 }
