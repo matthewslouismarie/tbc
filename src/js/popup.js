@@ -1,9 +1,16 @@
 "use strict";
 
+import {
+    DOTS_ALIASING,
+    PLUS_ALIASING,
+    getConfSetting,
+    getRandomInt,
+} from "./lib.js";
+
 function initToggleBtn(elementId) {
     const toggleBtn = document.getElementById(elementId);
     (async () => {
-        const isChecked= await getConfSetting(elementId);
+        const isChecked = await getConfSetting(elementId);
         console.log("isChecked set to ", isChecked);
         toggleBtn.checked = isChecked;
     })();

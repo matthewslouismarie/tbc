@@ -1,24 +1,24 @@
 "use strict";
 
-const CONF = "conf-";
-const PLUS_ALIASING = "plus-aliasing";
-const DOTS_ALIASING = "dots-aliasing";
-const NAME_HANDLING = "name-handling";
-const NAME_HANDLING_AS_IS = "";
-const NAME_HANDLING_SHORT = "shorten";
-const NAME_HANDLING_ABBR = "abbreviate";
-const NAME_HANDLING_VARIATIONS = "add-variations";
-const NAME_HANDLING_MISTAKES = "add-spelling-mistakes";
-const NAME_HANDLING_VALUES = [
+export const CONF = "conf-";
+export const PLUS_ALIASING = "plus-aliasing";
+export const DOTS_ALIASING = "dots-aliasing";
+export const NAME_HANDLING = "name-handling";
+export const NAME_HANDLING_AS_IS = "";
+export const NAME_HANDLING_SHORT = "shorten";
+export const NAME_HANDLING_ABBR = "abbreviate";
+export const NAME_HANDLING_VARIATIONS = "add-variations";
+export const NAME_HANDLING_MISTAKES = "add-spelling-mistakes";
+export const NAME_HANDLING_VALUES = [
     NAME_HANDLING_SHORT,
     NAME_HANDLING_ABBR,
     NAME_HANDLING_VARIATIONS,
     NAME_HANDLING_MISTAKES,
 ];
-const NAME_HANDLING_SEP = "name-handling-sep";
-const NAME_HANDLING_UPPERCASE = "name-handling-uppercase";
+export const NAME_HANDLING_SEP = "name-handling-sep";
+export const NAME_HANDLING_UPPERCASE = "name-handling-uppercase";
 
-const CONF_SCHEMA =  {
+export const CONF_SCHEMA =  {
     [PLUS_ALIASING]: {
         checker: (value) => typeof value === "boolean",
         default: true
@@ -41,7 +41,7 @@ const CONF_SCHEMA =  {
     },
 };
 
-function addSpellingMistakes(string) {
+export function addSpellingMistakes(string) {
     string.split(" ").map((word) => {
     if (Math.random() > .5) {
         pos = getRandomInt(word.length);
@@ -58,7 +58,7 @@ function addSpellingMistakes(string) {
 }
 
 // Default to false if setting does not exist.
-function getConfSetting(key) {
+export function getConfSetting(key) {
     return chrome.storage.local.get(CONF + key).then((setting) => {
         const value = setting[CONF + key];
         console.log("ossp [lib][getConfSetting] ", key, " has raw value ", value);
@@ -69,7 +69,7 @@ function getConfSetting(key) {
     });
 }
 
-function setConfSetting(key, value) {
+export function setConfSetting(key, value) {
     if (!Object.keys(CONF_SCHEMA).includes(key)) {
         throw Error(`Setting "${key}" is unknown.`);
     }
@@ -79,6 +79,6 @@ function setConfSetting(key, value) {
     });
 }
 
-function getRandomInt(max) {
+export function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }

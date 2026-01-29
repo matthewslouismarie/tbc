@@ -1,5 +1,7 @@
 "use strict";
 
+var lib;
+
 const TIME_K = "submissionTime";
 const EMAIL_RE = /^([^.\s][^@\s]*)@(((gmail)|(yahoo)|(outlook)|(proton))\.[a-z]+)$/;
 const ROLE_EMAIL = "email";
@@ -46,13 +48,13 @@ function onFormSubmission(event, form) {
             
             let emailLeftPart = emailMatches[1];
 
-            const plusAliasingOn =  await getConfSetting(PLUS_ALIASING);
+            const plusAliasingOn =  await lib.getConfSetting(PLUS_ALIASING);
             console.log("plusAliasingOn", plusAliasingOn);
             if (plusAliasingOn) {
                 emailLeftPart = emailLeftPart + "+" + getRandomInt(99999);
             }
 
-            const dotsAliasingOn =  await getConfSetting(DOTS_ALIASING);
+            const dotsAliasingOn =  await lib.getConfSetting(DOTS_ALIASING);
             console.log("dotsAliasingOn", dotsAliasingOn);
             if (dotsAliasingOn) {
                 emailLeftPart = emailLeftPart.replaceAll(".", "");
@@ -66,23 +68,23 @@ function onFormSubmission(event, form) {
             }
             input.value = emailLeftPart + "@" + emailMatches[2];
         } else if (ROLE_NAME === role || ROLE_GIVEN_NAME === role || ROLE_FAMILY_NAME === role || ROLE_ADDITIONAL_NAME == role) {
-            const nameHandling =  await getConfSetting(NAME_HANDLING);
-            console.log("nameHandling", NAME_HANDLING);
+            const nameHandling =  await lib.getConfSetting(lib.NAME_HANDLING);
+            console.log("nameHandling", lib.NAME_HANDLING);
             switch (nameHandling) {
-                case NAME_HANDLING_ABBR:
-                    const sep = await getConfSetting(NAME_HANDLING_SEP);
-                    const toUpperCase = await getConfSetting(NAME_HANDLING_UPPERCASE);
+                case lib.NAME_HANDLING_ABBR:
+                    const sep = await lib.getConfSetting(lib.NAME_HANDLING_SEP);
+                    const toUpperCase = await lib.getConfSetting(lib.NAME_HANDLING_UPPERCASE);
                     const tmp = input.value.match(/(?<!\w)(\w)/g)?.join(sep) ?? input.value;
                     input.value = toUpperCase ? tmp.toUpperCase() : tmp;
                     console.log("input.value, tmp, toUpperCase", input.value, tmp, toUpperCase);
                     break;
-                case NAME_HANDLING_MISTAKES:
+                case lib.NAME_HANDLING_MISTAKES:
                     input.value = addSpellingMistakes(input.value);
                     break;
-                case NAME_HANDLING_SHORT:
+                case lib.NAME_HANDLING_SHORT:
                     input.value = input.value.substring(0, getRandomInt(input.value.length) + 1);
                     break;
-                case NAME_HANDLING_VARIATIONS:
+                case lib.NAME_HANDLING_VARIATIONS:
                     break;
             }
         }
@@ -142,9 +144,22 @@ function getInputRole(input) {
     return null;
 }
 
-document.querySelectorAll("form").forEach(parseForm);
 
-(async () => {
-    const siteConf = await chrome.storage.local.get(window.location.hostname);
-    console.log(window.location.hostname, siteConf);
-})();
+async function loadModule() {
+    try {
+        // Dynamically import the module
+        lib = await import('./lib.js');
+
+        document.querySelectorAll("form").forEach(parseForm);
+
+        (async () => {
+            const siteConf = await chrome.storage.local.get(window.location.hostname);
+            console.log(window.location.hostname, siteConf);
+        })();
+    } catch (error) {
+        console.error("Module loading failed:", error);
+    }
+}
+
+// Call the async function to load the module
+loadModule();

@@ -16,7 +16,6 @@
   "content_scripts": [
     {
       "js": [
-        "src/js/lib.js",
         "src/js/content.js"
       ],
       "matches": [
@@ -24,6 +23,12 @@
         "https://*/*",
         "file://*/*"
       ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/js/lib.js"],
+      "matches": ["<all_urls>"]
     }
   ],
   "permissions": [
