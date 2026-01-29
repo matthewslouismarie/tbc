@@ -41,6 +41,21 @@ const CONF_SCHEMA =  {
     },
 };
 
+function addSpellingMistakes(string) {
+    string.split(" ").map((word) => {
+    if (Math.random() > .5) {
+        pos = getRandomInt(word.length);
+
+        const typo = Math.random() > .5 ? word.splice(pos, pos+1) : String.fromCharCode(getRandomInt(122-97)+97);
+        word = word.slice(0, pos) + typo + word.slice(pos);
+    }
+    if (Math.random() > 0.5) {
+        return word.toLocaleLowerCase();
+    } else {
+        return word.toLocaleUpperCase();
+    }
+});
+}
 
 // Default to false if setting does not exist.
 function getConfSetting(key) {

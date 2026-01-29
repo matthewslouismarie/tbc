@@ -1,0 +1,8 @@
+services:
+  node_dsn:
+    image: node:25
+    volumes:
+      - ./src:/app
+    working_dir: /app
+    user: node
+    command: sleep infinity

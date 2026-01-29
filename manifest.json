@@ -4,20 +4,20 @@
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "html/hello.html",
-    "default_icon": "assets/icons/ossp_48.png"
+    "default_popup": "src/assets/html/popup.html",
+    "default_icon": "src/assets/icons/ossp_48.png"
   },
   "icons": {
-    "16": "assets/icons/ossp_16.png",
-    "32": "assets/icons/ossp_32.png",
-    "48": "assets/icons/ossp_48.png",
-    "128": "assets/icons/ossp_128.png"
+    "16": "src/assets/icons/ossp_16.png",
+    "32": "src/assets/icons/ossp_32.png",
+    "48": "src/assets/icons/ossp_48.png",
+    "128": "src/assets/icons/ossp_128.png"
   },
   "content_scripts": [
     {
       "js": [
-        "js/lib.js",
-        "js/content.js"
+        "src/js/lib.js",
+        "src/js/content.js"
       ],
       "matches": [
         "http://*/*",

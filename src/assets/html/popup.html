@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="/src/assets/css/style.css" rel="stylesheet">
   </head>
   <body class="popup-body">
     <main class="px">
       <div class="text-center">
-        <img alt="OSS Privacy" class="d-block mx-auto mb-4" src="/assets/icons/ossp_128.png">
+        <img alt="OSS Privacy" class="d-block mx-auto mb-4" src="/src/assets/icons/ossp_128.png">
         <h1 class="mb-4">OSS Privacy</h1>
       </div>
     </main>
@@ -40,10 +40,10 @@
       <div>
         <label for="name-handling-sep">If abbreviating names, what should be the separator?</label>
         <select class="form-select" id="name-handling-sep">
-          <option value="no-sep">No separators</option>
-          <option value="dot">Dots (.)</option>
-          <option value="dash">Dashes (-)</option>
-          <option value="space">Spaces ( )</option>
+          <option value="">No separators</option>
+          <option value=".">Dots (.)</option>
+          <option value="-">Dashes (-)</option>
+          <option value=" ">Spaces ( )</option>
         </select>
       </div>
       <div>
@@ -55,7 +55,7 @@
       </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="/js/lib.js"></script>
-    <script src="/js/popup.js"></script>
+    <script src="/src/js/lib.js"></script>
+    <script src="/src/js/popup.js"></script>
   </body>
 </html>

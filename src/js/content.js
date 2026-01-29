@@ -70,13 +70,17 @@ function onFormSubmission(event, form) {
             console.log("nameHandling", NAME_HANDLING);
             switch (nameHandling) {
                 case NAME_HANDLING_ABBR:
-                    const sep = '.';
-                    input.value = input.value.match(/(?<!\w)(\w)/g)?.join(sep) ?? input.value;
+                    const sep = await getConfSetting(NAME_HANDLING_SEP);
+                    const toUpperCase = await getConfSetting(NAME_HANDLING_UPPERCASE);
+                    const tmp = input.value.match(/(?<!\w)(\w)/g)?.join(sep) ?? input.value;
+                    input.value = toUpperCase ? tmp.toUpperCase() : tmp;
+                    console.log("input.value, tmp, toUpperCase", input.value, tmp, toUpperCase);
                     break;
                 case NAME_HANDLING_MISTAKES:
+                    input.value = addSpellingMistakes(input.value);
                     break;
                 case NAME_HANDLING_SHORT:
-                    input.value = input.value.substring(1, getRandomInt(input.value.length) - 1);
+                    input.value = input.value.substring(0, getRandomInt(input.value.length) + 1);
                     break;
                 case NAME_HANDLING_VARIATIONS:
                     break;
@@ -102,7 +106,7 @@ function getInputRole(input) {
         return ROLE_TEL;
     } else if (null !== label) {
         const labelText = label.textContent.toLowerCase();
-        if (EN_NAME_TEXTS.some((phrase) => labelText.includes(phrase))) {
+        if (NAME_TEXTS.some((phrase) => labelText.includes(phrase))) {
             console.log(labelText, " is a name.");
             // @todo should return specific type
             return ROLE_NAME;
@@ -116,7 +120,7 @@ function getInputRole(input) {
                 continue;
             }
             const labelText = label.innerText.replaceAll("*", "").trim().toLocaleLowerCase();
-            if (EN_NAME_TEXTS.some((phrase) => labelText.includes(phrase))) {
+            if (NAME_TEXTS.some((phrase) => labelText.includes(phrase))) {
                 console.log(labelText, " is a name.");
                 // @todo should return specific type
                 return ROLE_NAME;
@@ -127,7 +131,7 @@ function getInputRole(input) {
         }
     } else if (null !== input.getAttribute("aria-label")) {
         const labelText = input.getAttribute("aria-label");
-        if (EN_NAME_TEXTS.some((phrase) => labelText.includes(phrase))) {
+        if (NAME_TEXTS.some((phrase) => labelText.includes(phrase))) {
             console.log(labelText, " is a name.");
             // @todo should return specific type
             return ROLE_NAME;
