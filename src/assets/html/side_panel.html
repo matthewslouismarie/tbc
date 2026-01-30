@@ -7,12 +7,26 @@
         <link rel="stylesheet" href="/src/node_modules/bootstrap/dist/css/bootstrap.min.css">
         <link href="/src/assets/css/style.css" rel="stylesheet"> 
     </head>
-    <body class="px py">
-        Hello!
-        <div>
-            <canvas id="myChart"></canvas>
-        </div>
+    <body class="px py pt-4">
+        <nav class="container">
+            <input id="searchbar">
+        </nav>
+        <main class="container" id="main">
+        </main>
+        <template id="site-tpl">
+            <div data-site class="container px py">
+                <h2 data-site-attr="name"></h2>
+                <p data-site-attr="size">32kb of data</p>
+                <dl data-site-attr="properties">
+                </dl>
+            </div>
+        </template>
+        <template id="attr-tpl">
+            <dt data-list-attr="name"></dt>
+            <dd data-list-attr="value"></dd>
+        </template>
+        <div id="test"></div>
         <script src="/src/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/src/node_modules/chart.js/dist/chart.js" type="module"></script>
+        <script src="/src/js/side_panel.js" type="module"></script>
     </body>
 </html>

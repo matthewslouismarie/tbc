@@ -27,21 +27,27 @@ const NAME_TEXTS = [
     'nom de famille',
 ];
 
+function log(msg) {
+    console.log("ossp [lib] ", msg);
+}
+
 function parseForm(form) {
     console.log("parseForm called.");
     const submitBtn = form.querySelector("button[type=submit], input[type=submit], [role=button], [aria-label=Submit]");
     submitBtn.addEventListener("click", (event) => onFormSubmission(event, form));
 }
 
-function onFormSubmission(event, form) {
+async function onFormSubmission(event, form) {
     console.log("onFormSubmission called.");
     // event.preventDefault();
     // event.stopPropagation();
     // event.stopImmediatePropagation();
-    const userData = {};
-    userData[TIME_K] = Date.now();
-    form.querySelectorAll("input").forEach(async (input) => {
+    const siteUserData = {};
+    siteUserData[TIME_K] = Date.now();
+    
+    for (const input of form.querySelectorAll("input")) {
         const role = getInputRole(input);
+        console.log("ossp [onFormSubmission] Processing role: ", role);
         const emailMatches = input.value.match(EMAIL_RE);
         if (null !== emailMatches && emailMatches.length > 0) {
             console.log("Email detected, regex matches are: ", emailMatches);
@@ -77,16 +83,26 @@ function onFormSubmission(event, form) {
             }
         }
 
-        console.log("input.value", input.value);
-        
-        userData[role] = input.value;
+        log(`siteUserData[${role}]: ${input.value}`);
+        siteUserData[role] = input.value;
+    };
+    const userData = (await chrome.storage.sync.get([lib.USER_DATA_KEY]))[lib.USER_DATA_KEY] ?? {};
+    const domainName = '' !== window.location.hostname ? window.location.hostname : 'static_file';
+    userData[domainName] = siteUserData;
+    console.log("userData about to be logged is", userData);
+    console.log("siteUserData is", siteUserData);
+    chrome.storage.sync.set({[lib.USER_DATA_KEY]: userData}).then(() => {
+        log("userData has been stored.");
+        chrome.storage.sync.get([lib.USER_DATA_KEY]).then((value) => {
+            console.log("Stored user data is ", value[lib.USER_DATA_KEY]);
+        });
     });
-    chrome.storage.local.set({[window.location.hostname]: userData});
 }
 
 // maybe check by accepted input role (e.g. name and spe (first name, etc.) based on autocomplete or label, then email based on autocomplete or label, etc.)
 function getInputRole(input) {
-    const label = document.querySelector(`label[for="${input.id}"]`) ?? input.parentElement.nodeName === 'LABEL' ? input.parentElement : null;
+    console.log("ossp [getInputRole] Called with ", input);
+    const label = document.querySelector(`label[for="${input.id}"]`) ?? input.parentElement?.nodeName === 'LABEL' ? input.parentElement : null;
     if (null !== input.getAttribute("autocomplete")) {
         return input.getAttribute("autocomplete");
     } else if ("email" === input.type) {
@@ -163,11 +179,6 @@ async function loadModule() {
         lib = await import('./lib.js');
 
         document.querySelectorAll("form").forEach(parseForm);
-
-        (async () => {
-            const siteConf = await chrome.storage.local.get(window.location.hostname);
-            console.log(window.location.hostname, siteConf);
-        })();
     } catch (error) {
         console.error("Module loading failed:", error);
     }

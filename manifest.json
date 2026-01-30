@@ -16,7 +16,6 @@
     "48": "src/assets/icons/ossp_48.png",
     "128": "src/assets/icons/ossp_128.png"
   },
-  
   "content_scripts": [
     {
       "js": [

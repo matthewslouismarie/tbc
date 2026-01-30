@@ -53,6 +53,8 @@ export const CONF_SCHEMA =  {
     }
 };
 
+export const USER_DATA_KEY = "ossp-user-data";
+
 export function addSpellingMistakes(string, switchCasingProba = 1, duplicateLetterProba = 1) {
     if (switchCasingProba > 0) {
         string = string.split('').map((letter) => Math.random() < switchCasingProba ? switchCasing(letter) : letter).join('');
@@ -69,7 +71,7 @@ export function addSpellingMistakes(string, switchCasingProba = 1, duplicateLett
 
 // Default to false if setting does not exist.
 export function getConfSetting(key) {
-    return chrome.storage.local.get(CONF + key).then((setting) => {
+    return chrome.storage.sync.get(CONF + key).then((setting) => {
         const value = setting[CONF + key];
         console.log("ossp [lib][getConfSetting] ", key, " has raw value ", value);
         if (CONF_SCHEMA[key].checker(value)) {
@@ -91,7 +93,7 @@ export function setConfSetting(key, value) {
         throw Error(`Setting "${key}" is unknown.`);
     }
     console.log("ossp [lib][setConfSetting] ", key, " set to raw value ", value);
-    return chrome.storage.local.set({
+    return chrome.storage.sync.set({
         [CONF + key]: value,
     });
 }

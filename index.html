@@ -1,96 +1,98 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <title>Formulaire</title>
-    </head>
-    <form id="form" action="#" method="get" autocomplete="on">
-        <button type="submit">Submit</button>
-        <fieldset>
-            <p>
-                <label>Email (autocomplete): 
-                    <input required name="username" autocomplete="email" value="my_email@gmail.com">
-                </label>
-            </p>
-            <p>
-                <label>Email (no autocomplete): 
-                    <input required name="username" value="my_email@gmail.com">
-                </label>
-            </p>
-            <p>
-                <label>Email (no autocomplete, but typed): 
-                    <input required name="username" type="email" value="my_email@gmail.com">
-                </label>
-            </p>
-        </fieldset>
-        <fieldset>
-            <h2>Name handling</h2>
-            <h3>Autocompletes</h3>
-            <p>First name: <input autocomplete="name" value="this is a default value"></p>
-            <p>Additional name: <input autocomplete="additional-name" value="this is a default value"></p>
-            <p>Family name: <input autocomplete="family-name" value="this is a default value"></p>
-            <p>Given name: <input autocomplete="given-name" value="this is a default value"></p>
-            <h3>Based on label</h3>
-            <label>First name: <input value="this is a default value"></label>
-            <label>Additional name: <input value="this is a default value"></label>
-            <label>Family name: <input value="this is a default value"></label>
-            <label>Given name: <input value="this is a default value"></label>
-            <h3>Based on ARIA labelle-by</h3>
-            <label id="aria-first-name">First name: </label>
-            <input aria-labelledby="aria-first-name" value="this is a default value">
-            <label id="aria-additional-name">Additional name: </label>
-            <input aria-labelledby="aria-additional-name" value="this is a default value">
-            <label id="aria-family-name">Family name: </label>
-            <input aria-labelledby="aria-family-name" value="this is a default value">
-            <label id="aria-given-name">Given name: </label>
-            <input aria-labelledby="aria-given-name" value="this is a default value">
-            <h3>Based on ARIA label</h3>
-            <p>First name: <input aria-label="name" value="this is a default value"></p>
-            <p>Additional name: <input aria-label="additional-name" value="this is a default value"></p>
-            <p>Family name: <input aria-label="family-name" value="this is a default value"></p>
-            <p>Given name: <input aria-label="given-name" value="this is a default value"></p>
-        </fieldset>
-        <fieldset>
-            <p>
-                <label>Street Address: 
-                    <input required name="username" autocomplete="street-address" value="My Street Address">
-                </label>
-            </p>
-            <p>
-                <label>Address Line 1: 
-                    <input required name="username" autocomplete="address-line1" value="Address line 1">
-                </label>
-            </p>
-            <p>
-                <label>Address Line 2: 
-                    <input required name="username" autocomplete="address-line2" value="Address line 2">
-                </label>
-            </p>
-            <p>
-                <label>Address Line 3: 
-                    <input required name="username" autocomplete="address-line3" value="Address line 3">
-                </label>
-            </p>
-            <p>
-                <label>Address Level 4: 
-                    <input required name="username" autocomplete="address-level4" value="Address level 4">
-                </label>
-            </p>
-            <p>
-                <label>Address Level 3: 
-                    <input required name="username" autocomplete="address-level3" value="Address level 3">
-                </label>
-            </p>
-            <p>
-                <label>Address Level 2: 
-                    <input required name="username" autocomplete="address-level2" value="Address level 2">
-                </label>
-            </p>
-            <p>
-                <label>Address Level 1: 
-                    <input required name="username" autocomplete="address-level1" value="Address level 1">
-                </label>
-            </p>
-        </fieldset>
-    </form>
-    </html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Formulaire</title>
+</head>
+<form id="form" action="#" method="get" autocomplete="on">
+    <button type="submit">Submit</button>
+    <fieldset>
+        <p>
+            <label>Email (autocomplete):
+                <input required name="username" autocomplete="email" value="my_email@gmail.com">
+            </label>
+        </p>
+        <p>
+            <label>Email (no autocomplete):
+                <input required name="username" value="my_email@gmail.com">
+            </label>
+        </p>
+        <p>
+            <label>Email (no autocomplete, but typed):
+                <input required name="username" type="email" value="my_email@gmail.com">
+            </label>
+        </p>
+    </fieldset>
+    <fieldset>
+        <h2>Name handling</h2>
+        <h3>Autocompletes</h3>
+        <p>First name: <input autocomplete="name" value="this is a default value"></p>
+        <p>Additional name: <input autocomplete="additional-name" value="this is a default value"></p>
+        <p>Family name: <input autocomplete="family-name" value="this is a default value"></p>
+        <p>Given name: <input autocomplete="given-name" value="this is a default value"></p>
+        <h3>Based on label</h3>
+        <label>First name: <input value="this is a default value"></label>
+        <label>Additional name: <input value="this is a default value"></label>
+        <label>Family name: <input value="this is a default value"></label>
+        <label>Given name: <input value="this is a default value"></label>
+        <h3>Based on ARIA labelle-by</h3>
+        <label id="aria-first-name">First name: </label>
+        <input aria-labelledby="aria-first-name" value="this is a default value">
+        <label id="aria-additional-name">Additional name: </label>
+        <input aria-labelledby="aria-additional-name" value="this is a default value">
+        <label id="aria-family-name">Family name: </label>
+        <input aria-labelledby="aria-family-name" value="this is a default value">
+        <label id="aria-given-name">Given name: </label>
+        <input aria-labelledby="aria-given-name" value="this is a default value">
+        <h3>Based on ARIA label</h3>
+        <p>First name: <input aria-label="name" value="this is a default value"></p>
+        <p>Additional name: <input aria-label="additional-name" value="this is a default value"></p>
+        <p>Family name: <input aria-label="family-name" value="this is a default value"></p>
+        <p>Given name: <input aria-label="given-name" value="this is a default value"></p>
+    </fieldset>
+    <fieldset>
+        <p>
+            <label>Street Address:
+                <input required name="username" autocomplete="street-address" value="My Street Address">
+            </label>
+        </p>
+        <p>
+            <label>Address Line 1:
+                <input required name="username" autocomplete="address-line1" value="Address line 1">
+            </label>
+        </p>
+        <p>
+            <label>Address Line 2:
+                <input required name="username" autocomplete="address-line2" value="Address line 2">
+            </label>
+        </p>
+        <p>
+            <label>Address Line 3:
+                <input required name="username" autocomplete="address-line3" value="Address line 3">
+            </label>
+        </p>
+        <p>
+            <label>Address Level 4:
+                <input required name="username" autocomplete="address-level4" value="Address level 4">
+            </label>
+        </p>
+        <p>
+            <label>Address Level 3:
+                <input required name="username" autocomplete="address-level3" value="Address level 3">
+            </label>
+        </p>
+        <p>
+            <label>Address Level 2:
+                <input required name="username" autocomplete="address-level2" value="Address level 2">
+            </label>
+        </p>
+        <p>
+            <label>Address Level 1:
+                <input required name="username" autocomplete="address-level1" value="Address level 1">
+            </label>
+        </p>
+    </fieldset>
+</form>
+
+</html>
