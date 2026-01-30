@@ -33,61 +33,62 @@ function log(msg) {
 
 function parseForm(form) {
     console.log("parseForm called.");
-    const submitBtn = form.querySelector("button[type=submit], input[type=submit], [role=button], [aria-label=Submit]");
-    submitBtn.addEventListener("click", (event) => onFormSubmission(event, form));
+    form.querySelectorAll("input").forEach((el) => {
+        onInputChange(el);
+        el.onchange = (event) => {
+            onInputChange(event.target);
+        }
+    });
 }
 
-async function onFormSubmission(event, form) {
-    console.log("onFormSubmission called.");
-    // event.preventDefault();
-    // event.stopPropagation();
-    // event.stopImmediatePropagation();
-    const siteUserData = {};
+async function onInputChange(input) {
+    log("onInputChange called.");
+    const domainName = '' !== window.location.hostname ? window.location.hostname : 'static_file';
+    
+    const userData = (await chrome.storage.sync.get([lib.USER_DATA_KEY]))[lib.USER_DATA_KEY] ?? {};
+    const siteUserData = userData[domainName] ?? {};
     siteUserData[TIME_K] = Date.now();
     
-    for (const input of form.querySelectorAll("input")) {
-        const role = getInputRole(input);
-        console.log("ossp [onFormSubmission] Processing role: ", role);
-        const emailMatches = input.value.match(EMAIL_RE);
-        if (null !== emailMatches && emailMatches.length > 0) {
-            console.log("Email detected, regex matches are: ", emailMatches);
-            
-            let emailLeftPart = emailMatches[1];
+    const role = getInputRole(input);
+    console.log("ossp [onInputChange] Processing role: ", role);
+    const emailMatches = input.value.match(EMAIL_RE);
+    if (null !== emailMatches && emailMatches.length > 0) {
+        console.log("Email detected, regex matches are: ", emailMatches);
+        
+        let emailLeftPart = emailMatches[1];
 
-            const plusAliasingOn =  await lib.getConfSetting(lib.PLUS_ALIASING);
-            console.log("plusAliasingOn", plusAliasingOn);
-            if (plusAliasingOn) {
-                emailLeftPart = emailLeftPart + "+" + lib.getRandomInt(99999);
-            }
-
-            const dotsAliasingOn =  await lib.getConfSetting(lib.DOTS_ALIASING);
-            console.log("dotsAliasingOn", dotsAliasingOn);
-            if (dotsAliasingOn) {
-                emailLeftPart = emailLeftPart.replaceAll(".", "");
-                let i = lib.getRandomInt(emailLeftPart.length - 1) + 1;
-                while (i < emailLeftPart.length) {
-                    console.log(i);
-                    emailLeftPart = emailLeftPart.substring(0, i) + "." + emailLeftPart.substring(i);
-                    console.log("emailLeftPart", emailLeftPart);
-                    i += 2 + lib.getRandomInt(emailLeftPart.length - 2);
-                }
-            }
-            input.value = emailLeftPart + "@" + emailMatches[2];
-        } else if (ROLE_NAME === role || ROLE_GIVEN_NAME === role || ROLE_FAMILY_NAME === role || ROLE_ADDITIONAL_NAME == role) {
-            if (await lib.getConfSetting(lib.NAME_HANDLING_TARGET_NAMES)) {
-                input.value = await handleName(input.value);
-            }
-        } else if (role.includes("address")) {
-            if (await lib.getConfSetting(lib.NAME_HANDLING_TARGET_ADDRESSES)) {
-                input.value = await handleName(input.value);
-            }
+        const plusAliasingOn =  await lib.getConfSetting(lib.PLUS_ALIASING);
+        console.log("plusAliasingOn", plusAliasingOn);
+        if (plusAliasingOn) {
+            emailLeftPart = emailLeftPart + "+" + lib.getRandomInt(99999);
         }
 
-        log(`siteUserData[${role}]: ${input.value}`);
-        siteUserData[role] = input.value;
-    };
-    const userData = (await chrome.storage.sync.get([lib.USER_DATA_KEY]))[lib.USER_DATA_KEY] ?? {};
-    const domainName = '' !== window.location.hostname ? window.location.hostname : 'static_file';
+        const dotsAliasingOn =  await lib.getConfSetting(lib.DOTS_ALIASING);
+        console.log("dotsAliasingOn", dotsAliasingOn);
+        if (dotsAliasingOn) {
+            emailLeftPart = emailLeftPart.replaceAll(".", "");
+            let i = lib.getRandomInt(emailLeftPart.length - 1) + 1;
+            while (i < emailLeftPart.length) {
+                console.log(i);
+                emailLeftPart = emailLeftPart.substring(0, i) + "." + emailLeftPart.substring(i);
+                console.log("emailLeftPart", emailLeftPart);
+                i += 2 + lib.getRandomInt(emailLeftPart.length - 2);
+            }
+        }
+        input.value = emailLeftPart + "@" + emailMatches[2];
+    } else if (ROLE_NAME === role || ROLE_GIVEN_NAME === role || ROLE_FAMILY_NAME === role || ROLE_ADDITIONAL_NAME == role) {
+        if (await lib.getConfSetting(lib.NAME_HANDLING_TARGET_NAMES)) {
+            input.value = await handleName(input.value);
+        }
+    } else if (role.includes("address")) {
+        if (await lib.getConfSetting(lib.NAME_HANDLING_TARGET_ADDRESSES)) {
+            input.value = await handleName(input.value);
+        }
+    }
+
+    log(`siteUserData[${role}]: ${input.value}`);
+    siteUserData[role] = input.value;
+
     userData[domainName] = siteUserData;
     console.log("userData about to be logged is", userData);
     console.log("siteUserData is", siteUserData);
@@ -144,7 +145,7 @@ function getInputRole(input) {
     } else {
         return input.name;
     }
-    return null;
+    return "unknown-" + getRandomInt(100);
 }
 
 // @todo move in lib?
@@ -185,4 +186,6 @@ async function loadModule() {
 }
 
 // Call the async function to load the module
-loadModule();
+window.onload = function() {
+    loadModule();
+};
