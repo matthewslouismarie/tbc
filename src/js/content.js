@@ -48,44 +48,32 @@ function onFormSubmission(event, form) {
             
             let emailLeftPart = emailMatches[1];
 
-            const plusAliasingOn =  await lib.getConfSetting(PLUS_ALIASING);
+            const plusAliasingOn =  await lib.getConfSetting(lib.PLUS_ALIASING);
             console.log("plusAliasingOn", plusAliasingOn);
             if (plusAliasingOn) {
-                emailLeftPart = emailLeftPart + "+" + getRandomInt(99999);
+                emailLeftPart = emailLeftPart + "+" + lib.getRandomInt(99999);
             }
 
-            const dotsAliasingOn =  await lib.getConfSetting(DOTS_ALIASING);
+            const dotsAliasingOn =  await lib.getConfSetting(lib.DOTS_ALIASING);
             console.log("dotsAliasingOn", dotsAliasingOn);
             if (dotsAliasingOn) {
                 emailLeftPart = emailLeftPart.replaceAll(".", "");
-                let i = getRandomInt(emailLeftPart.length - 1) + 1;
+                let i = lib.getRandomInt(emailLeftPart.length - 1) + 1;
                 while (i < emailLeftPart.length) {
                     console.log(i);
                     emailLeftPart = emailLeftPart.substring(0, i) + "." + emailLeftPart.substring(i);
                     console.log("emailLeftPart", emailLeftPart);
-                    i += 2 + getRandomInt(emailLeftPart.length - 2);
+                    i += 2 + lib.getRandomInt(emailLeftPart.length - 2);
                 }
             }
             input.value = emailLeftPart + "@" + emailMatches[2];
         } else if (ROLE_NAME === role || ROLE_GIVEN_NAME === role || ROLE_FAMILY_NAME === role || ROLE_ADDITIONAL_NAME == role) {
-            const nameHandling =  await lib.getConfSetting(lib.NAME_HANDLING);
-            console.log("nameHandling", lib.NAME_HANDLING);
-            switch (nameHandling) {
-                case lib.NAME_HANDLING_ABBR:
-                    const sep = await lib.getConfSetting(lib.NAME_HANDLING_SEP);
-                    const toUpperCase = await lib.getConfSetting(lib.NAME_HANDLING_UPPERCASE);
-                    const tmp = input.value.match(/(?<!\w)(\w)/g)?.join(sep) ?? input.value;
-                    input.value = toUpperCase ? tmp.toUpperCase() : tmp;
-                    console.log("input.value, tmp, toUpperCase", input.value, tmp, toUpperCase);
-                    break;
-                case lib.NAME_HANDLING_MISTAKES:
-                    input.value = addSpellingMistakes(input.value);
-                    break;
-                case lib.NAME_HANDLING_SHORT:
-                    input.value = input.value.substring(0, getRandomInt(input.value.length) + 1);
-                    break;
-                case lib.NAME_HANDLING_VARIATIONS:
-                    break;
+            if (await lib.getConfSetting(lib.NAME_HANDLING_TARGET_NAMES)) {
+                input.value = await handleName(input.value);
+            }
+        } else if (role.includes("address")) {
+            if (await lib.getConfSetting(lib.NAME_HANDLING_TARGET_ADDRESSES)) {
+                input.value = await handleName(input.value);
             }
         }
 
@@ -99,7 +87,6 @@ function onFormSubmission(event, form) {
 // maybe check by accepted input role (e.g. name and spe (first name, etc.) based on autocomplete or label, then email based on autocomplete or label, etc.)
 function getInputRole(input) {
     const label = document.querySelector(`label[for="${input.id}"]`) ?? input.parentElement.nodeName === 'LABEL' ? input.parentElement : null;
-    console.log(label);
     if (null !== input.getAttribute("autocomplete")) {
         return input.getAttribute("autocomplete");
     } else if ("email" === input.type) {
@@ -142,6 +129,31 @@ function getInputRole(input) {
         return input.name;
     }
     return null;
+}
+
+// @todo move in lib?
+async function handleName(name) {
+    let nameHandling =  await lib.getConfSetting(lib.NAME_HANDLING);
+    console.log("nameHandling", lib.NAME_HANDLING);
+    if (lib.NAME_HANDLING_RANDOM === nameHandling) {
+        nameHandling = lib.NAME_HANDLING_VALUES[lib.getRandomInt(lib.NAME_HANDLING_VALUES.length - 1)];
+    }
+    switch (nameHandling) {
+        case lib.NAME_HANDLING_ABBR:
+            const sep = await lib.getConfSetting(lib.NAME_HANDLING_SEP);
+            const toUpperCase = await lib.getConfSetting(lib.NAME_HANDLING_UPPERCASE);
+            const tmp = name.match(/(?<!\w)(\w)/g)?.join(sep) ?? name;
+            name = toUpperCase ? tmp.toUpperCase() : tmp;
+            console.log("name, tmp, toUpperCase", name, tmp, toUpperCase);
+            break;
+        case lib.NAME_HANDLING_MISTAKES:
+            name = lib.addSpellingMistakes(name, .5, .5);
+            break;
+        case lib.NAME_HANDLING_SHORT:
+            name = name.substring(0, lib.getRandomInt(name.length) + 1);
+            break;
+    }
+    return name;
 }
 
 

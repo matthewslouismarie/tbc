@@ -9,14 +9,18 @@ export const NAME_HANDLING_SHORT = "shorten";
 export const NAME_HANDLING_ABBR = "abbreviate";
 export const NAME_HANDLING_VARIATIONS = "add-variations";
 export const NAME_HANDLING_MISTAKES = "add-spelling-mistakes";
+export const NAME_HANDLING_RANDOM = "random";
 export const NAME_HANDLING_VALUES = [
     NAME_HANDLING_SHORT,
     NAME_HANDLING_ABBR,
     NAME_HANDLING_VARIATIONS,
     NAME_HANDLING_MISTAKES,
+    NAME_HANDLING_RANDOM,
 ];
 export const NAME_HANDLING_SEP = "name-handling-sep";
 export const NAME_HANDLING_UPPERCASE = "name-handling-uppercase";
+export const NAME_HANDLING_TARGET_NAMES = "name-handling-target-names";
+export const NAME_HANDLING_TARGET_ADDRESSES = "name-handling-target-addresses";
 
 export const CONF_SCHEMA =  {
     [PLUS_ALIASING]: {
@@ -39,22 +43,28 @@ export const CONF_SCHEMA =  {
         checker: (value) => typeof value === "boolean",
         default: true
     },
+    [NAME_HANDLING_TARGET_NAMES]: {
+        checker: (value) => typeof value === "boolean",
+        default: true
+    },
+    [NAME_HANDLING_TARGET_ADDRESSES]: {
+        checker: (value) => typeof value === "boolean",
+        default: true
+    }
 };
 
-export function addSpellingMistakes(string) {
-    string.split(" ").map((word) => {
-    if (Math.random() > .5) {
-        pos = getRandomInt(word.length);
-
-        const typo = Math.random() > .5 ? word.splice(pos, pos+1) : String.fromCharCode(getRandomInt(122-97)+97);
-        word = word.slice(0, pos) + typo + word.slice(pos);
+export function addSpellingMistakes(string, switchCasingProba = 1, duplicateLetterProba = 1) {
+    if (switchCasingProba > 0) {
+        string = string.split('').map((letter) => Math.random() < switchCasingProba ? switchCasing(letter) : letter).join('');
     }
-    if (Math.random() > 0.5) {
-        return word.toLocaleLowerCase();
-    } else {
-        return word.toLocaleUpperCase();
-    }
-});
+    string = string.split(" ").map((word) => {
+        if (duplicateLetterProba > 0 && Math.random() < duplicateLetterProba) {
+            const pos = getRandomInt(word.length);
+            word = word.slice(0, pos) + word[pos] + word.slice(pos);
+        }
+        return word;
+    }).join(' ');
+    return string;
 }
 
 // Default to false if setting does not exist.
@@ -67,6 +77,13 @@ export function getConfSetting(key) {
         }
         return CONF_SCHEMA[key].default;
     });
+}
+
+export function switchCasing(letter) {
+    if (letter.toLocaleUpperCase() === letter) {
+        return letter.toLocaleLowerCase();
+    }
+    return letter.toLocaleUpperCase();
 }
 
 export function setConfSetting(key, value) {
