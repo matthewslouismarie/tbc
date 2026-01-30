@@ -40,3 +40,17 @@ initToggleBtn(lib.DOTS_ALIASING);
 initToggleBtn(lib.NAME_HANDLING_TARGET_NAMES);
 initToggleBtn(lib.NAME_HANDLING_TARGET_ADDRESSES);
 initSelects();
+
+// Source - https://stackoverflow.com/a/78522872
+// Posted by nawzneen
+// Retrieved 2026-01-30, License - CC BY-SA 4.0
+async function getCurrentTab() {
+let queryOptions = { active: true, lastFocusedWindow: true };
+// `tab` will either be a `tabs.Tab` instance or `undefined`.
+let [tab] = await chrome.tabs.query(queryOptions);
+return tab;
+}
+
+document.getElementById('open-side-panel').addEventListener('click', function() {
+    getCurrentTab().then((tab) => chrome.sidePanel.open({ tabId: tab.id }));
+});

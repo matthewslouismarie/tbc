@@ -7,12 +7,16 @@
     "default_popup": "src/assets/html/popup.html",
     "default_icon": "src/assets/icons/ossp_48.png"
   },
+  "background": {
+    "service_worker": "src/js/service-worker.js"
+  },
   "icons": {
     "16": "src/assets/icons/ossp_16.png",
     "32": "src/assets/icons/ossp_32.png",
     "48": "src/assets/icons/ossp_48.png",
     "128": "src/assets/icons/ossp_128.png"
   },
+  
   "content_scripts": [
     {
       "js": [
@@ -34,7 +38,11 @@
   "options_ui": {
     "page": "src/assets/html/popup.html"
   },
+  "side_panel": {
+    "default_path": "src/assets/html/side_panel.html"
+  },
   "permissions": [
+    "sidePanel",
     "storage"
   ]
 }
