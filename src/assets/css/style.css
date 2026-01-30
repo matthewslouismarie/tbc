@@ -1,5 +1,5 @@
 .popup-body {
-    width: 256px;
+    min-width: 256px;
     margin: 32px;
     /* font-size: 32px; */
 }

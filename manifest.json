@@ -31,6 +31,9 @@
       "matches": ["<all_urls>"]
     }
   ],
+  "options_ui": {
+    "page": "src/assets/html/popup.html"
+  },
   "permissions": [
     "storage"
   ]
